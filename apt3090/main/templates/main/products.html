@@ -1,11 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Merchants Website</title>
-</head>
-<body>
-<h1>THIS IS OUR SUPER AWSOME PRODUCTS PAGE</h1>
+{% extends 'main/base.html' %}
+{% block content%}
 
-</body>
-</html>
+<div class="row">
+    <div class="col-sm-6">
+      <div class="card ">
+        <div class="card-body">
+
+          <h5 class="card-title">Edit your personal information</h5>
+          <p class="card-text">Your credit card info, email address, delivery details</p>
+          <a href="#" class="btn btn-primary">Edit </a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">View orders you have placed in the past </h5>
+          <p class="card-text">Active orders, cancelled, delivered orders</p>
+          <a href="#" class="btn btn-primary">View</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <!-- cards -->
+  <div class="row">
+    <div class="col-sm-3">
+      <div class="card " style="width: 18rem;">
+        <div class="card-body">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" class="card-img-top" alt="...">
+
+          <h5 class="card-title">Edit your personal information</h5>
+          <p class="card-text">Your credit card info, email address, delivery details</p>
+          <a href="#" class="btn btn-primary">ORDER </a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" class="card-img-top" alt="...">
+
+          <h5 class="card-title">View orders you have placed in the past </h5>
+          <p class="card-text">Active orders, cancelled, delivered orders</p>
+          <a href="#" class="btn btn-primary">ORDER</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="card " style="width: 18rem;">
+          <div class="card-body">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" class="card-img-top" alt="...">
+  
+            <h5 class="card-title">Edit your personal information</h5>
+            <p class="card-text">Your credit card info, email address, delivery details</p>
+            <a href="#" class="btn btn-primary">ORDER </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" class="card-img-top" alt="...">
+  
+            <h5 class="card-title">View orders you have placed in the past </h5>
+            <p class="card-text">Active orders, cancelled, delivered orders</p>
+            <a href="#" class="btn btn-primary">ORDER</a>
+          </div>
+        </div>
+      </div>
+  </div>
+{% endblock %}
