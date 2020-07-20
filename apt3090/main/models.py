@@ -22,7 +22,7 @@ class Product(models.Model):
     name=models.CharField(max_length=200, null=True)
     price=models.FloatField(max_length=200, null=True)
     category=models.CharField(max_length=200, null=True,choices=CATEGORY)
-    description=models.CharField(max_length=200, null=True)
+    description=models.CharField(max_length=200, null=True, blank=True)
     date_created=models.DateTimeField(auto_now_add=True,  null=True)
 
     def __str__(self):
@@ -34,8 +34,8 @@ class Order(models.Model):
                 ('Cancelled', 'Cancelled'),
                 ('Delivered', 'Delivered'),
             )
-    #customer =
-    #product =
+    customer = models.ForeignKey(Customer, null=True, on_delete = models.SET_NULL)
+    product =models.ForeignKey(Product, null=True, on_delete = models.SET_NULL)
     status =models.CharField(max_length=200, null=True, choices=STATUS)
     date_created=models.DateTimeField(auto_now_add=True,  null=True)
 
