@@ -8,7 +8,7 @@
 		<div class="card card-body">
 			<h5>Profile:</h5>
 			<hr>
-			<a class="btn btn-outline-info  btn-sm btn-block" href="/products">Edit your profile</a>
+			<a class="btn btn-outline-info  btn-sm btn-block" href="">Edit your profile</a>
 
 		</div>
 	</div>
@@ -49,6 +49,7 @@
                         <th>Category</th>
                         <th>Date Ordered</th>
                         <th>Order Status</th>
+                        <th></th>
 
                     </tr>
                       {% for order in orders %}
@@ -59,6 +60,7 @@
                         <th>  {{order.date_created}}</th>
                         <th>  {{order.product.category}}</th>
                         <th>  {{order.status}}</th>
+                        <th> <a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'main:updateorder' order.id %}">Update</a></th>
 
 
 
