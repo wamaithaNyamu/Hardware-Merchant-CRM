@@ -14,6 +14,20 @@ class Customer(models.Model):
     date_created = models.DateTimeField(auto_now_add=True,  null=True)
     # AES ENCRYPTION PART
     credit_card_number_encrypted = models.CharField(max_length=200,  null=True)
+
+    def _get_card(self):
+        cursor = connection.cursor()
+        cursor.execute("SELECT AES_DECRYPT(UNHEX(credit_card_number_encrypted), %s) as card_number FROM tablename WHERE id=%s",
+                       ['settings.SECRET_KEY', self.id])
+        return cursor.fetchone()[0]
+
+    def _set_card(self, card_number_value):
+        cursor = connection.cursor()
+        cursor.execute("SELECT HEX(AES_ENCRYPT(%s, %s)) as card_number", [card_number_value, "settings.SECRET_KEY"])
+        self.credit_card_number_encrypted = cursor.fetchone()[0]
+
+    credit_card = property(_get_card, _set_card)
+
     cvv_encrypted = models.CharField(max_length=18,  null=True)
     expiry_month = models.CharField(max_length=3,  null=True)
     expiry_year = models.CharField(max_length=4,  null=True)
