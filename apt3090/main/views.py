@@ -210,7 +210,6 @@ def updateProduct(request, productid):
     context = {'form': form}
     return render(request, 'main/product_form.html', context)
 
-@login_required(login_url='main:login')
 def registerPage(request):
     if request.user.is_authenticated:
         return redirect('main:supervisor')
