@@ -312,10 +312,15 @@ def userPage(request):
 def userProfile(request):
     curr_customer = request.user.customer
     form = CustomerProfileForm(instance=curr_customer)
-
     if request.method == 'POST':
         form = CustomerProfileForm(request.POST, instance=curr_customer)
         if form.is_valid():
+            card_number = form.cleaned_data['credit_card_number_encrypted']
+            credit_card = curr_customer.credit_card
+            p = curr_customer.objects.create(credit_card =card_number)
+            p.ssn
+            print('card number', card_number)
+
             form.save()
 
     context = {'form': form}
