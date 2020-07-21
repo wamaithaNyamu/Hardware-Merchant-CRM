@@ -262,9 +262,8 @@ def registerPage(request):
 
             return redirect('main:login')
 
-        context = {'form': form}
-        return render(request, 'main/register.html', context)
-
+    context = {'form': form}
+    return render(request, 'main/register.html', context)
 
 @unauthenticated_user
 def loginPage(request):
