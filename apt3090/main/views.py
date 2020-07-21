@@ -306,3 +306,18 @@ def userPage(request):
     context = {'orders': orders, 'total_orders': total_orders,
                'delivered': delivered, 'pending': pending}
     return render(request, 'main/user.html', context)
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['customer'])
+def userProfile(request):
+    curr_customer = request.user.customer
+    form = CustomerProfileForm(instance=curr_customer)
+
+    if request.method == 'POST':
+        form = CustomerProfileForm(request.POST, instance=curr_customer)
+        if form.is_valid():
+            form.save()
+
+    context = {'form': form}
+
+    return render(request, 'main/user_profile_form.html', context)

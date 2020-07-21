@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db import connection, models
+import re
+
 
 # Create your models here.
 # customer
@@ -10,10 +13,10 @@ class Customer(models.Model):
     phone = models.CharField(max_length =200, null=True)
     date_created = models.DateTimeField(auto_now_add=True,  null=True)
     # AES ENCRYPTION PART
-    credit_card_number_encrypted = models.CharField(max_length=100, null=True)
-    cvv_encrypted = models.CharField(max_length=4,null=True)
-    expiry_month = models.CharField(max_length=3,null=True)
-    expiry_year = models.CharField(max_length=3,null=True)
+    credit_card_number_encrypted = models.CharField(max_length=200,  null=True)
+    cvv_encrypted = models.CharField(max_length=18,  null=True)
+    expiry_month = models.CharField(max_length=3,  null=True)
+    expiry_year = models.CharField(max_length=4,  null=True)
 
     def __str__(self):
         return self.name
