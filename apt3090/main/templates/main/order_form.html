@@ -52,11 +52,11 @@
 {#        <button name="submit" type="submit" class="btn btn-primary">Update</button>#}
 {#      </form>#}
 
-<form action="/supervisor", method="post">
+<form action="", method="post">
     {% csrf_token %}
-    {{ formset.management_form }}
-    {% for form in formset %}
-    {{ form }} <br>
+    {{ forms.management_form }}
+    {% for form in forms %}
+        {{ form }} <br>
     {% endfor %}
 
     <button name="submit" type="submit" class="btn btn-primary">Update</button>

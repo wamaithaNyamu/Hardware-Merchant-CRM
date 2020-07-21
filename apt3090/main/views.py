@@ -31,7 +31,7 @@ from django.contrib.auth.models import Group
 # Create your views here.
 from .models import *
 from .forms import OrderForm, CreateUserForm
-from .decorators import unauthenticated_user, allowed_users
+from .decorators import unauthenticated_user, allowed_users, admin_only
 
 
 # landing page view
@@ -66,7 +66,7 @@ def customer(request, username):
 # can only see customer insensitive info
 # can RU orders - change order status as delivered, cancelled, returns
 @login_required(login_url='main:login')
-@allowed_users(allowed_roles=['Intern'])
+@allowed_users(allowed_roles=['Intern', 'admin'])
 def intern(request, username):
     username = Intern.objects.get(name=username)
     orders = Order.objects.all()
@@ -94,7 +94,7 @@ def intern(request, username):
 # send invoice to the customer
 # CRU invoices - only the superuser can delete invoices
 @login_required(login_url='main:login')
-@allowed_users(allowed_roles=['admin'])
+@admin_only
 def supervisor(request):
     products = Product.objects.all()
     orders = Order.objects.all()
@@ -121,7 +121,7 @@ def supervisor(request):
 # products view
 # shows products and their prices and ability to place an order
 @login_required(login_url='main:login')
-@allowed_users(allowed_roles=['admin','customer','intern'])
+@allowed_users(allowed_roles=['admin', 'intern'])
 def products(request):
     products = Product.objects.all()
     return render(request, 'main/products.html', {'products': products})
@@ -129,7 +129,7 @@ def products(request):
 
 # create order and update order form
 @login_required(login_url='main:login')
-@allowed_users(allowed_roles=['admin','customer'])
+@allowed_users(allowed_roles=['admin'])
 def createOrder(request, username):
     OrderFormSet = inlineformset_factory(Customer, Order, fields=('product', 'status'), extra=10)
     customer = Customer.objects.get(name=username)
@@ -199,7 +199,7 @@ def createCustomer(request):
 
 
 @login_required(login_url='main:login')
-@allowed_users(allowed_roles=['admin','intern','customer'])
+@allowed_users(allowed_roles=['admin', 'intern'])
 def updateOrder(request, productid):
     order = Order.objects.get(id=productid)
     form = OrderForm(instance=order)
@@ -210,7 +210,7 @@ def updateOrder(request, productid):
             form.save()
             return redirect('/supervisor')
 
-    context = {'form': form}
+    context = {'forms': form}
     return render(request, 'main/order_form.html', context)
 
 
@@ -265,6 +265,7 @@ def registerPage(request):
     context = {'form': form}
     return render(request, 'main/register.html', context)
 
+
 @unauthenticated_user
 def loginPage(request):
     if request.method == 'POST':
@@ -274,7 +275,7 @@ def loginPage(request):
 
         if user is not None:
             login(request, user)
-            return redirect('main:products')
+            return redirect('main:supervisor')
         else:
             messages.info(request, 'Username OR password is incorrect')
 
@@ -285,3 +286,19 @@ def loginPage(request):
 def logoutUser(request):
     logout(request)
     return redirect('main:home')
+
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['customer'])
+def userPage(request):
+    orders = request.user.customer.order_set.all()
+
+    total_orders = orders.count()
+    delivered = orders.filter(status='Delivered').count()
+    pending = orders.filter(status='Pending').count()
+
+    print('ORDERS:', orders)
+
+    context = {'orders': orders, 'total_orders': total_orders,
+               'delivered': delivered, 'pending': pending}
+    return render(request, 'main/user.html', context)
