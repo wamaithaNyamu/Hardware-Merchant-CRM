@@ -207,6 +207,7 @@
                         <th> Name</th>
                         <th> Email</th>
                         <th>Phone</th>
+                        <th></th>
 {#                        <th>Stock</th>#}
 
                     </tr>
@@ -217,7 +218,7 @@
                         <th>  {{customer.email}}</th>
                         <th>  {{customer.phone}}</th>
 
-                        <th> <button class="btn btn-primary" type="submit">Update</button></th>
+                        <th> <a href="{% url 'main:user' customer.name %}"  >View</a></th>
 
 
 

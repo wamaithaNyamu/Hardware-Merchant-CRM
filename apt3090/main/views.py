@@ -61,7 +61,8 @@ def supervisor(request):
                'total_orders':    total_orders,
                'total_interns':total_interns,
                'pending_orders':pending_orders,
-               'out_of_stock':out_of_stock}
+               'out_of_stock':out_of_stock,
+               }
     return render(request, 'main/supervisor.html', context)
 
 
