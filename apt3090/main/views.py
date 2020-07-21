@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from .models import *
-
+from .forms import OrderForm
 # landing page view
 # landing page for the merchants business - hardware business
 # login and logout buttons and register buttons
@@ -87,8 +87,14 @@ def products(request):
 
 # create order and update order form
 def createOrder(request):
+    form = OrderForm()
+    if request.method == 'POST':
+        # print('Printing POST:', request.POST)
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/supervisor')
 
-    
-    context ={}
+    context = {'form': form}
 
     return render(request, 'main/order_form.html',context)

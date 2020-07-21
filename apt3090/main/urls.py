@@ -9,7 +9,7 @@ urlpatterns = [
     path("customer/<slug:username>/", views.customer, name='user'),
     path("intern/<slug:username>/", views.intern, name='intern'),
     path("products", views.products),
-    path("supervisor", views.supervisor),
+    path("supervisor", views.supervisor, name='supervisor'),
     path("create_order", views.createOrder, name='createorder'),
 
 ]
