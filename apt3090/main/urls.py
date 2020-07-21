@@ -8,7 +8,7 @@ urlpatterns = [
     path("", views.landingpage,name='home'),
     path("customer/<slug:username>/", views.customer, name='user'),
     path("intern/<slug:username>/", views.intern, name='intern'),
-    path("products", views.products),
+    path("products", views.products, name='products'),
     path("supervisor", views.supervisor, name='supervisor'),
     path("create_order/<slug:username>", views.createOrder, name='createorder'),
     path("update_order/<str:productid>/", views.updateOrder, name='updateorder'),

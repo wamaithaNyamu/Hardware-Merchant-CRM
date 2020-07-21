@@ -16,6 +16,23 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 from .models import *
 from .forms import OrderForm, CreateUserForm
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.forms import inlineformset_factory
+from django.contrib.auth.forms import UserCreationForm
+
+from django.contrib.auth import authenticate, login, logout
+
+from django.contrib import messages
+
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
+
+# Create your views here.
+from .models import *
+from .forms import OrderForm, CreateUserForm
+from .decorators import unauthenticated_user, allowed_users
+
 
 # landing page view
 # landing page for the merchants business - hardware business
@@ -49,6 +66,7 @@ def customer(request, username):
 # can only see customer insensitive info
 # can RU orders - change order status as delivered, cancelled, returns
 @login_required(login_url='main:login')
+@allowed_users(allowed_roles=['Intern'])
 def intern(request, username):
     username = Intern.objects.get(name=username)
     orders = Order.objects.all()
@@ -76,6 +94,7 @@ def intern(request, username):
 # send invoice to the customer
 # CRU invoices - only the superuser can delete invoices
 @login_required(login_url='main:login')
+@allowed_users(allowed_roles=['admin'])
 def supervisor(request):
     products = Product.objects.all()
     orders = Order.objects.all()
@@ -102,6 +121,7 @@ def supervisor(request):
 # products view
 # shows products and their prices and ability to place an order
 @login_required(login_url='main:login')
+@allowed_users(allowed_roles=['admin','customer','intern'])
 def products(request):
     products = Product.objects.all()
     return render(request, 'main/products.html', {'products': products})
@@ -109,6 +129,7 @@ def products(request):
 
 # create order and update order form
 @login_required(login_url='main:login')
+@allowed_users(allowed_roles=['admin','customer'])
 def createOrder(request, username):
     OrderFormSet = inlineformset_factory(Customer, Order, fields=('product', 'status'), extra=10)
     customer = Customer.objects.get(name=username)
@@ -126,8 +147,10 @@ def createOrder(request, username):
 
     return render(request, 'main/order_form.html', context)
 
+
 # create intern and update order form
 @login_required(login_url='main:login')
+@allowed_users(allowed_roles=['admin'])
 def createIntern(request):
     form = InternForm()
     if request.method == 'POST':
@@ -141,8 +164,10 @@ def createIntern(request):
 
     return render(request, 'main/intern_form.html', context)
 
+
 # create product and update order form
 @login_required(login_url='main:login')
+@allowed_users(allowed_roles=['admin'])
 def createProduct(request):
     form = ProductForm()
     if request.method == 'POST':
@@ -155,7 +180,10 @@ def createProduct(request):
     context = {'form': form}
 
     return render(request, 'main/product_form.html', context)
+
+
 @login_required(login_url='main:login')
+@allowed_users(allowed_roles=['admin'])
 def createCustomer(request):
     form = CustomerForm()
     if request.method == 'POST':
@@ -169,7 +197,9 @@ def createCustomer(request):
 
     return render(request, 'main/customer_form.html', context)
 
+
 @login_required(login_url='main:login')
+@allowed_users(allowed_roles=['admin','intern','customer'])
 def updateOrder(request, productid):
     order = Order.objects.get(id=productid)
     form = OrderForm(instance=order)
@@ -183,7 +213,9 @@ def updateOrder(request, productid):
     context = {'form': form}
     return render(request, 'main/order_form.html', context)
 
+
 @login_required(login_url='main:login')
+@allowed_users(allowed_roles=['admin'])
 def updateIntern(request, username):
     intern = Intern.objects.get(name=username)
     form = InternForm(instance=intern)
@@ -196,7 +228,10 @@ def updateIntern(request, username):
 
     context = {'form': form}
     return render(request, 'main/intern_form.html', context)
+
+
 @login_required(login_url='main:login')
+@allowed_users(allowed_roles=['admin'])
 def updateProduct(request, productid):
     product = Product.objects.get(id=productid)
     form = ProductForm(instance=product)
@@ -210,39 +245,42 @@ def updateProduct(request, productid):
     context = {'form': form}
     return render(request, 'main/product_form.html', context)
 
-def registerPage(request):
-    if request.user.is_authenticated:
-        return redirect('main:supervisor')
-    else:
-        form = CreateUserForm()
-        if request.method == 'POST':
-            form = CreateUserForm(request.POST)
-            if form.is_valid():
-                form.save()
-                user = form.cleaned_data.get('username')
-                messages.success(request, 'Account was created for ' + user)
 
-                return redirect('main:login')
+@unauthenticated_user
+def registerPage(request):
+    form = CreateUserForm()
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            username = form.cleaned_data.get('username')
+
+            group = Group.objects.get(name='customer')
+            user.groups.add(group)
+
+            messages.success(request, 'Account was created for ' + username)
+
+            return redirect('main:login')
 
         context = {'form': form}
         return render(request, 'main/register.html', context)
 
-def loginPage(request):
-    if request.user.is_authenticated:
-        return redirect('main:supervisor')
-    else:
-        if request.method == 'POST':
-            username = request.POST.get('username')
-            password = request.POST.get('password')
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('main:supervisor')
-            else:
-                messages.info(request, 'Username OR password is incorrect')
 
-        context = {}
-        return render(request, 'main/login.html', context)
+@unauthenticated_user
+def loginPage(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('main:products')
+        else:
+            messages.info(request, 'Username OR password is incorrect')
+
+    context = {}
+    return render(request, 'main/login.html', context)
 
 
 def logoutUser(request):
