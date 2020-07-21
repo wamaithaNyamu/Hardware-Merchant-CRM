@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import *
-from .forms import OrderForm
+from .forms import *
 
 
 # landing page view
@@ -104,6 +104,47 @@ def createOrder(request):
 
     return render(request, 'main/order_form.html', context)
 
+# create intern and update order form
+def createIntern(request):
+    form = InternForm()
+    if request.method == 'POST':
+        # print('Printing POST:', request.POST)
+        form = InternForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/supervisor')
+
+    context = {'form': form}
+
+    return render(request, 'main/intern_form.html', context)
+
+# create product and update order form
+def createProduct(request):
+    form = ProductForm()
+    if request.method == 'POST':
+        # print('Printing POST:', request.POST)
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/supervisor')
+
+    context = {'form': form}
+
+    return render(request, 'main/product_form.html', context)
+
+def createCustomer(request):
+    form = CustomerForm()
+    if request.method == 'POST':
+        # print('Printing POST:', request.POST)
+        form = CustomerForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/supervisor')
+
+    context = {'form': form}
+
+    return render(request, 'main/customer_form.html', context)
+
 
 def updateOrder(request, productid):
     order = Order.objects.get(id=productid)
@@ -117,4 +158,31 @@ def updateOrder(request, productid):
 
     context = {'form': form}
     return render(request, 'main/order_form.html', context)
+
+
+def updateIntern(request, username):
+    intern = Intern.objects.get(name=username)
+    form = InternForm(instance=intern)
+
+    if request.method == 'POST':
+        form = InternForm(request.POST, instance=intern)
+        if form.is_valid():
+            form.save()
+            return redirect('/supervisor')
+
+    context = {'form': form}
+    return render(request, 'main/intern_form.html', context)
+
+def updateProduct(request, productid):
+    product = Product.objects.get(id=productid)
+    form = ProductForm(instance=product)
+
+    if request.method == 'POST':
+        form = ProductForm(request.POST, instance=product)
+        if form.is_valid():
+            form.save()
+            return redirect('/supervisor')
+
+    context = {'form': form}
+    return render(request, 'main/product_form.html', context)
 

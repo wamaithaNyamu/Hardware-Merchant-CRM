@@ -23,7 +23,7 @@
 		<div class="card card-body">
 			<h5>Products:</h5>
 			<hr>
-			<a class="btn btn-outline-info  btn-sm btn-block" href="">Add Products</a>
+			<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'main:createproduct' %}">Add Products</a>
 			<a class="btn btn-outline-danger  btn-sm btn-block" href="">Delete Products</a>
 
 		</div>
@@ -74,7 +74,7 @@
                         <th>  {{product.category}}</th>
                         <th>  {{product.description}}</th>
                         <th> {{product.stock_number}}</th>
-                        <th> <button class="btn btn-primary" type="submit">Update</button></th>
+                        <th> <a class="btn btn-primary" href="{% url 'main:updateproduct' product.id %}">Update</a></th>
 
 
 
@@ -165,7 +165,7 @@
 		<div class="card card-body">
 			<h5>Customers:</h5>
 			<hr>
-			<a class="btn btn-outline-info  btn-sm btn-block" href="">Add Customer</a>
+			<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'main:createcustomer' %}">Add Customer</a>
 {#			<a class="btn btn-outline-danger  btn-sm btn-block" href="">Delete Products</a>#}
 
 		</div>
@@ -237,7 +237,7 @@
 		<div class="card card-body">
 			<h5>Interns:</h5>
 			<hr>
-			<a class="btn btn-outline-info  btn-sm btn-block" href="">Add Intern</a>
+			<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'main:createintern' %}">Add Intern</a>
 {#			<a class="btn btn-outline-danger  btn-sm btn-block" href="">Delete Products</a>#}
 
 		</div>
