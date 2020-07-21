@@ -22,52 +22,34 @@
       </div>
     </div>
   </div>
+  <br>
   <hr>
+  <br>
   <!-- cards -->
   <div class="row">
+      {% for product in products%}
     <div class="col-sm-3">
       <div class="card " style="width: 18rem;">
         <div class="card-body">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" class="card-img-top" alt="...">
-
-          <h5 class="card-title">Edit your personal information</h5>
-          <p class="card-text">Your credit card info, email address, delivery details</p>
+            <!-- image -->
+            <img src={{product.image_url}}  class="card-img-top" alt="...">
+       
+            <!-- name -->
+            <h4>            {{product.name}}
+            </h4>
+            <!-- Price -->
+            <h5>            {{product.price}}
+            </h5>
+            <!-- Category -->
+            <h5>            {{product.category}}
+            </h5>
+            <!-- descriptio -->
+            <h5>            {{product.description}}
+            </h5>
           <a href="#" class="btn btn-primary">ORDER </a>
         </div>
       </div>
     </div>
-    <div class="col-sm-3">
-      <div class="card" style="width: 18rem;">
-        <div class="card-body">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" class="card-img-top" alt="...">
-
-          <h5 class="card-title">View orders you have placed in the past </h5>
-          <p class="card-text">Active orders, cancelled, delivered orders</p>
-          <a href="#" class="btn btn-primary">ORDER</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-3">
-        <div class="card " style="width: 18rem;">
-          <div class="card-body">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" class="card-img-top" alt="...">
-  
-            <h5 class="card-title">Edit your personal information</h5>
-            <p class="card-text">Your credit card info, email address, delivery details</p>
-            <a href="#" class="btn btn-primary">ORDER </a>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-3">
-        <div class="card" style="width: 18rem;">
-          <div class="card-body">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png" class="card-img-top" alt="...">
-  
-            <h5 class="card-title">View orders you have placed in the past </h5>
-            <p class="card-text">Active orders, cancelled, delivered orders</p>
-            <a href="#" class="btn btn-primary">ORDER</a>
-          </div>
-        </div>
-      </div>
+    {% endfor %}
   </div>
 {% endblock %}

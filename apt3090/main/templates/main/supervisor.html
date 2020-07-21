@@ -1,285 +1,308 @@
 
 {% extends 'main/base.html' %}
 {% block content%}
-<div class="container">
-    <div class="row">
-        <div class="col-3">
-          <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">PRODUCTS</a>
-            <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">ORDERS</a>
-            <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">INTERNS</a>
-            <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">INVOICES</a>
-          </div>
-        </div>
-        <div class="col-9">
-          <div class="tab-content" id="v-pills-tabContent">
-            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
-                <br>
-            
-            <div class="row">
-                <div class="col-md">
-                    <div class="card card-body">
-                        <h5>Customer:</h5>
-                        <hr>
-                        <a class="btn btn-outline-info  btn-sm btn-block" href="">Update Customer</a>
-                        <a class="btn btn-outline-danger  btn-sm btn-block" href="">Delete Customer</a>
-            
-                    </div>
-                </div>
-            
-                <div class="col-md">
-                    <div class="card card-body">
-                        <h5>Contact Information</h5>
-                        <hr>
-                        <p>Email: </p>
-                        <p>Phone: </p>
-                    </div>
-                </div>
-            
-                <div class="col-md">
-                    <div class="card card-body">
-                        <h5>Total Orders</h5>
-                        <hr>
-                        <h1 style="text-align: center;padding: 10px"></h1>
-                    </div>
-                </div>
+<div class="" style="margin: 1%; padding: 3%">
+<div class="row">
+  <div class="col-3">
+    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+      <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Products</a>
+      <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Orders</a>
+      <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Customers</a>
+      <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Interns</a>
+    </div>
+  </div>
+
+  <div class="col-9">
+    <div class="tab-content" id="v-pills-tabContent">
+      <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+
+	<br>
+
+<div class="row">
+	<div class="col-md">
+		<div class="card card-body">
+			<h5>Products:</h5>
+			<hr>
+			<a class="btn btn-outline-info  btn-sm btn-block" href="">Add Products</a>
+			<a class="btn btn-outline-danger  btn-sm btn-block" href="">Delete Products</a>
+
+		</div>
+	</div>
+
+
+	<div class="col-md">
+		<div class="card card-body">
+			<h5>Total Products out of stock</h5>
+			<hr>
+			<h1 style="text-align: center;padding: 10px">{{ out_of_stock }}</h1>
+		</div>
+	</div>
+</div>
+
+
+<br>
+<div class="row">
+	<div class="col">
+		<div class="card card-body">
+			<form method="get">
+
+		    <button class="btn btn-primary" type="submit">Search</button>
+		  </form>
+		</div>
+	</div>
+
+</div>
+<br>
+
+
+      <div class="row">
+        <div class="col-md">
+            <div class="card card-body">
+                <table class="table table-sm">
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                        <th>Stock</th>
+
+                    </tr>
+                      {% for product in products %}
+                    <tr>
+                        <th>  name{{product.name}}</th>
+                        <th>  {{product.price}}</th>
+                        <th>  {{product.category}}</th>
+                        <th>  {{product.description}}</th>
+                        <th> {{product.stock_number}}</th>
+                        <th> <button class="btn btn-primary" type="submit">Update</button></th>
+
+
+
+                    </tr>
+                    {% endfor %}
+                </table>
             </div>
-            
-            
+        </div>
+    </div>
+      </div>
+      <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+{#          orders#}
+          <br>
+
+<div class="row">
+	<div class="col-md">
+		<div class="card card-body">
+			<h5>Orders:</h5>
+			<hr>
+			<a class="btn btn-outline-info  btn-sm btn-block" href="">Add Order</a>
+{#			<a class="btn btn-outline-danger  btn-sm btn-block" href="">Delete Products</a>#}
+
+		</div>
+	</div>
+
+
+	<div class="col-md">
+		<div class="card card-body">
+			<h5>Total Orders Pending</h5>
+			<hr>
+			<h1 style="text-align: center;padding: 10px">{{ pending_orders }}
+            </h1>
+		</div>
+	</div>
+</div>
+
+
+<br>
+<div class="row">
+	<div class="col">
+		<div class="card card-body">
+			<form method="get">
+
+		    <button class="btn btn-primary" type="submit">Search</button>
+		  </form>
+		</div>
+	</div>
+
+</div>
+<br>
+
+
+      <div class="row">
+        <div class="col-md">
+            <div class="card card-body">
+                <table class="table table-sm">
+                    <tr>
+                        <th>Order Date</th>
+                        <th>Product</th>
+                        <th>Customer</th>
+                        <th>Status</th>
+{#                        <th>Stock</th>#}
+
+                    </tr>
+                      {% for order in orders %}
+                    <tr>
+                        <th>  {{order.date_created}}</th>
+                        <th>  {{order.product}}</th>
+                        <th>  {{order.customer}}</th>
+                        <th>  {{order.status}}</th>
+
+                        <th> <button class="btn btn-primary" type="submit">Update</button></th>
+
+
+
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+      </div>
+      <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
             <br>
-            <div class="row">
-                <div class="col">
-                    <div class="card card-body">
-                        <form method="get">
-            
-                        <button class="btn btn-primary" type="submit">Search</button>
-                      </form>
-                    </div>
-                </div>
-                
-            </div>
-            <br>
-            
-            <div class="row">
-                <div class="col-md">
-                    <div class="card card-body">
-                        <table class="table table-sm">
-                            <tr>
-                                <th>Product</th>
-                                <th>Category</th>
-                                <th>Date Orderd</th>
-                                <th>Status</th>
-                                <th>Update</th>
-                                <th>Remove</th>
-                            </tr>
-            
-                        </table>
-                    </div>
-                </div>
-            </div></div>
-            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-                
-	<br>
 
-    <div class="row">
-        <div class="col-md">
-            <div class="card card-body">
-                <h5>Customer:</h5>
-                <hr>
-                <a class="btn btn-outline-info  btn-sm btn-block" href="">Update Customer</a>
-                <a class="btn btn-outline-danger  btn-sm btn-block" href="">Delete Customer</a>
-    
-            </div>
-        </div>
-    
-        <div class="col-md">
-            <div class="card card-body">
-                <h5>Contact Information</h5>
-                <hr>
-                <p>Email: </p>
-                <p>Phone: </p>
-            </div>
-        </div>
-    
-        <div class="col-md">
-            <div class="card card-body">
-                <h5>Total Orders</h5>
-                <hr>
-                <h1 style="text-align: center;padding: 10px"></h1>
-            </div>
-        </div>
-    </div>
-    
-    
-    <br>
-    <div class="row">
-        <div class="col">
-            <div class="card card-body">
-                <form method="get">
-    
-                <button class="btn btn-primary" type="submit">Search</button>
-              </form>
-            </div>
-        </div>
-        
-    </div>
-    <br>
-    
-    <div class="row">
+<div class="row">
+	<div class="col-md">
+		<div class="card card-body">
+			<h5>Customers:</h5>
+			<hr>
+			<a class="btn btn-outline-info  btn-sm btn-block" href="">Add Customer</a>
+{#			<a class="btn btn-outline-danger  btn-sm btn-block" href="">Delete Products</a>#}
+
+		</div>
+	</div>
+
+
+	<div class="col-md">
+		<div class="card card-body">
+			<h5>Total Customers</h5>
+			<hr>
+			<h1 style="text-align: center;padding: 10px">{{total_customers}}
+            </h1>
+		</div>
+	</div>
+</div>
+
+
+<br>
+<div class="row">
+	<div class="col">
+		<div class="card card-body">
+			<form method="get">
+
+		    <button class="btn btn-primary" type="submit">Search</button>
+		  </form>
+		</div>
+	</div>
+
+</div>
+<br>
+
+
+      <div class="row">
         <div class="col-md">
             <div class="card card-body">
                 <table class="table table-sm">
                     <tr>
-                        <th>Product</th>
-                        <th>Category</th>
-                        <th>Date Orderd</th>
-                        <th>Status</th>
-                        <th>Update</th>
-                        <th>Remove</th>
+                        <th>Date Joined</th>
+                        <th> Name</th>
+                        <th> Email</th>
+                        <th>Phone</th>
+{#                        <th>Stock</th>#}
+
                     </tr>
-    
-                </table>
-            </div>
-        </div>
-    </div>
-
-            </div>
-            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
-                
-	<br>
-
-    <div class="row">
-        <div class="col-md">
-            <div class="card card-body">
-                <h5>Customer:</h5>
-                <hr>
-                <a class="btn btn-outline-info  btn-sm btn-block" href="">Update Customer</a>
-                <a class="btn btn-outline-danger  btn-sm btn-block" href="">Delete Customer</a>
-    
-            </div>
-        </div>
-    
-        <div class="col-md">
-            <div class="card card-body">
-                <h5>Contact Information</h5>
-                <hr>
-                <p>Email: </p>
-                <p>Phone: </p>
-            </div>
-        </div>
-    
-        <div class="col-md">
-            <div class="card card-body">
-                <h5>Total Orders</h5>
-                <hr>
-                <h1 style="text-align: center;padding: 10px"></h1>
-            </div>
-        </div>
-    </div>
-    
-    
-    <br>
-    <div class="row">
-        <div class="col">
-            <div class="card card-body">
-                <form method="get">
-    
-                <button class="btn btn-primary" type="submit">Search</button>
-              </form>
-            </div>
-        </div>
-        
-    </div>
-    <br>
-    
-    <div class="row">
-        <div class="col-md">
-            <div class="card card-body">
-                <table class="table table-sm">
+                      {% for customer in customers %}
                     <tr>
-                        <th>Product</th>
-                        <th>Category</th>
-                        <th>Date Orderd</th>
-                        <th>Status</th>
-                        <th>Update</th>
-                        <th>Remove</th>
-                    </tr>
-    
-                </table>
-            </div>
-        </div>
-    </div>
-            </div>
-            <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
-                
-	<br>
+                        <th>  {{customer.date_created}}</th>
+                        <th>  {{customer.name}}</th>
+                        <th>  {{customer.email}}</th>
+                        <th>  {{customer.phone}}</th>
 
-    <div class="row">
-        <div class="col-md">
-            <div class="card card-body">
-                <h5>Customer:</h5>
-                <hr>
-                <a class="btn btn-outline-info  btn-sm btn-block" href="">Update Customer</a>
-                <a class="btn btn-outline-danger  btn-sm btn-block" href="">Delete Customer</a>
-    
-            </div>
-        </div>
-    
-        <div class="col-md">
-            <div class="card card-body">
-                <h5>Contact Information</h5>
-                <hr>
-                <p>Email: </p>
-                <p>Phone: </p>
-            </div>
-        </div>
-    
-        <div class="col-md">
-            <div class="card card-body">
-                <h5>Total Orders</h5>
-                <hr>
-                <h1 style="text-align: center;padding: 10px"></h1>
-            </div>
-        </div>
-    </div>
-    
-    
-    <br>
-    <div class="row">
-        <div class="col">
-            <div class="card card-body">
-                <form method="get">
-    
-                <button class="btn btn-primary" type="submit">Search</button>
-              </form>
-            </div>
-        </div>
-        
-    </div>
-    <br>
-    
-    <div class="row">
-        <div class="col-md">
-            <div class="card card-body">
-                <table class="table table-sm">
-                    <tr>
-                        <th>Product</th>
-                        <th>Category</th>
-                        <th>Date Orderd</th>
-                        <th>Status</th>
-                        <th>Update</th>
-                        <th>Remove</th>
+                        <th> <button class="btn btn-primary" type="submit">Update</button></th>
+
+
+
                     </tr>
-    
+                    {% endfor %}
                 </table>
             </div>
-        </div>
-    </div>
-            </div>
-          </div>
         </div>
       </div>
+      </div>
+      <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+                 <br>
 
-</div>>
+<div class="row">
+	<div class="col-md">
+		<div class="card card-body">
+			<h5>Interns:</h5>
+			<hr>
+			<a class="btn btn-outline-info  btn-sm btn-block" href="">Add Intern</a>
+{#			<a class="btn btn-outline-danger  btn-sm btn-block" href="">Delete Products</a>#}
 
+		</div>
+	</div>
+
+
+	<div class="col-md">
+		<div class="card card-body">
+			<h5>Total Interns</h5>
+			<hr>
+			<h1 style="text-align: center;padding: 10px">{{ total_interns }}
+            </h1>
+		</div>
+	</div>
+</div>
+
+
+<br>
+<div class="row">
+	<div class="col">
+		<div class="card card-body">
+			<form method="get">
+
+		    <button class="btn btn-primary" type="submit">Search</button>
+		  </form>
+		</div>
+	</div>
+
+</div>
+<br>
+
+
+      <div class="row">
+        <div class="col-md">
+            <div class="card card-body">
+                <table class="table table-sm">
+                    <tr>
+                        <th>Date Joined</th>
+                        <th> Name</th>
+                        <th> Email</th>
+                        <th>Phone</th>
+{#                        <th>Stock</th>#}
+
+                    </tr>
+                      {% for intern in interns %}
+                    <tr>
+                        <th>  {{intern.date_created}}</th>
+                        <th>  {{intern.name}}</th>
+                        <th>  {{intern.email}}</th>
+                        <th>  {{intern.phone}}</th>
+
+                        <th> <button class="btn btn-primary" type="submit">Update</button></th>
+
+
+
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</div>
 {% endblock %}
