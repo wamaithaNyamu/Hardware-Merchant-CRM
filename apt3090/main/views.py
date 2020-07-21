@@ -29,8 +29,19 @@ def customer(request,username):
 # intern view
 # can only see customer insensitive info
 # can RU orders - change order status as delivered, cancelled, returns
-def intern(request):
-    return render(request, 'main/intern.html')
+def intern(request,username):
+    username = Intern.objects.get(name=username)
+    orders = Order.objects.all()
+    pending_orders = orders.filter(status='Pending').count()
+
+    context= {
+        'username':username,
+        'orders':orders,
+        'pending_orders': pending_orders,
+
+    }
+
+    return render(request, 'main/intern.html', context)
 
 # supervisor view
 # supervisor can see everything

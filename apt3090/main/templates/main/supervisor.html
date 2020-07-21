@@ -279,7 +279,6 @@
                         <th> Name</th>
                         <th> Email</th>
                         <th>Phone</th>
-{#                        <th>Stock</th>#}
 
                     </tr>
                       {% for intern in interns %}
@@ -289,7 +288,7 @@
                         <th>  {{intern.email}}</th>
                         <th>  {{intern.phone}}</th>
 
-                        <th> <button class="btn btn-primary" type="submit">Update</button></th>
+                        <th> <a href="{% url 'main:intern' intern.name %}" >View</a></th>
 
 
 
