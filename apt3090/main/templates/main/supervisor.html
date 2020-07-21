@@ -90,15 +90,15 @@
           <br>
 
 <div class="row">
-	<div class="col-md">
-		<div class="card card-body">
-			<h5>Orders:</h5>
-			<hr>
-			<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'main:createorder' %}">Add Order</a>
+{#	<div class="col-md">#}
+{#		<div class="card card-body">#}
+{#			<h5>Orders:</h5>#}
+{#			<hr>#}
+{#			<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'main:createorder' %}">Add Order</a>#}
 {#			<a class="btn btn-outline-danger  btn-sm btn-block" href="">Delete Products</a>#}
-
-		</div>
-	</div>
+{##}
+{#		</div>#}
+{#	</div>#}
 
 
 	<div class="col-md">
@@ -220,7 +220,7 @@
                         <th>  {{customer.email}}</th>
                         <th>  {{customer.phone}}</th>
 
-                        <th> <a href="{% url 'main:user' customer.name %}"  >Place Order</a></th>
+                        <th> <a href="{% url 'main:createorder' customer.name %}"  >Place Order</a></th>
 
 
 

@@ -51,9 +51,15 @@
 {#        </div> -->#}
 {#        <button name="submit" type="submit" class="btn btn-primary">Update</button>#}
 {#      </form>#}
+<h1>{{ customer.name }}</h1>
+
 <form action="", method="post">
     {% csrf_token %}
-    {{ form }}
+    {{ formset.management_form }}
+    {% for form in formset %}
+    {{ form }} <br>
+    {% endfor %}
+
             <button name="submit" type="submit" class="btn btn-primary">Update</button>
 
 

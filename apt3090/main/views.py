@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import *
 from .forms import *
-
+from django.forms import inlineformset_factory
 
 # landing page view
 # landing page for the merchants business - hardware business
@@ -91,16 +91,20 @@ def products(request):
 
 
 # create order and update order form
-def createOrder(request):
-    form = OrderForm()
+def createOrder(request, username):
+    OrderFormSet = inlineformset_factory(Customer, Order, fields=('product', 'status'), extra=10)
+    customer = Customer.objects.get(name=username)
+    formset = OrderFormSet(queryset=Order.objects.none(), instance=customer)
+    # form = OrderForm(initial={'customer':customer})
     if request.method == 'POST':
         # print('Printing POST:', request.POST)
-        form = OrderForm(request.POST)
-        if form.is_valid():
-            form.save()
+        # form = OrderForm(request.POST)
+        formset = OrderFormSet(request.POST, instance=customer)
+        if formset.is_valid():
+            formset.save()
             return redirect('/supervisor')
 
-    context = {'form': form}
+    context = {'formset': formset}
 
     return render(request, 'main/order_form.html', context)
 
