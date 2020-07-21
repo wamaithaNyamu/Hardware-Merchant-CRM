@@ -84,3 +84,11 @@ def products(request):
 
 
     return render(request, 'main/products.html',{'products':products})
+
+# create order and update order form
+def createOrder(request):
+
+    
+    context ={}
+
+    return render(request, 'main/order_form.html',context)

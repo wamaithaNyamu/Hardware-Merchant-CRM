@@ -10,5 +10,6 @@ urlpatterns = [
     path("intern/<slug:username>/", views.intern, name='intern'),
     path("products", views.products),
     path("supervisor", views.supervisor),
+    path("create_order", views.createOrder, name='createorder'),
 
 ]
