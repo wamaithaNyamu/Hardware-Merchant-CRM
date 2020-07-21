@@ -5,7 +5,7 @@ from . import views
 app_name = 'main'  # here for namespacing of urls.
 
 urlpatterns = [
-    path("", views.landingpage),
+    path("", views.landingpage,name='home'),
     path("customer/<slug:username>/", views.customer, name='user'),
     path("intern/<slug:username>/", views.intern, name='intern'),
     path("products", views.products),
@@ -17,5 +17,8 @@ urlpatterns = [
     path("create_product", views.createProduct, name='createproduct'),
     path("update_product/<str:productid>/", views.updateProduct, name='updateproduct'),
     path("create_customer", views.createCustomer, name='createcustomer'),
+    path("register/", views.registerPage, name='register'),
+    path("login/", views.loginPage, name='login'),
+    path("logout/", views.logoutUser, name='logout'),
 
 ]
