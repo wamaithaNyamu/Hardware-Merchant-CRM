@@ -1,12 +1,15 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import *
 from .forms import OrderForm
+
+
 # landing page view
 # landing page for the merchants business - hardware business
 # login and logout buttons and register buttons
 def landingpage(request):
     return render(request, 'main/landing.html')
+
 
 # customer view
 # owner of a retail hardware
@@ -15,33 +18,35 @@ def landingpage(request):
 # can see previous purchases
 # only one who can CRUD their credit card info
 # can make an order from products view
-def customer(request,username):
+def customer(request, username):
     username = Customer.objects.get(name=username)
     orders = username.order_set.all()
     orders_pending = orders.filter(status='Pending').count()
     context = {
-        'username':username,
-        'orders':orders,
-        'orders_pending':orders_pending
+        'username': username,
+        'orders': orders,
+        'orders_pending': orders_pending
     }
-    return render(request, 'main/orders.html',context)
+    return render(request, 'main/orders.html', context)
+
 
 # intern view
 # can only see customer insensitive info
 # can RU orders - change order status as delivered, cancelled, returns
-def intern(request,username):
+def intern(request, username):
     username = Intern.objects.get(name=username)
     orders = Order.objects.all()
     pending_orders = orders.filter(status='Pending').count()
 
-    context= {
-        'username':username,
-        'orders':orders,
+    context = {
+        'username': username,
+        'orders': orders,
         'pending_orders': pending_orders,
 
     }
 
     return render(request, 'main/intern.html', context)
+
 
 # supervisor view
 # supervisor can see everything
@@ -49,7 +54,7 @@ def intern(request,username):
 # can CRUD products
 # can CRUD customer
 # can see customers insensitive info
-#name,order, email, hashed creditcard info
+# name,order, email, hashed creditcard info
 # can delete customer
 # can add customer
 # send invoice to the customer
@@ -65,14 +70,14 @@ def supervisor(request):
     out_of_stock = products.filter(stock_number=0).count()
     pending_orders = orders.filter(status='Pending').count()
     context = {'products': products,
-               'orders':orders,
-               'customers':customers,
+               'orders': orders,
+               'customers': customers,
                'interns': interns,
-               'total_customers':  total_customers,
-               'total_orders':    total_orders,
-               'total_interns':total_interns,
-               'pending_orders':pending_orders,
-               'out_of_stock':out_of_stock,
+               'total_customers': total_customers,
+               'total_orders': total_orders,
+               'total_interns': total_interns,
+               'pending_orders': pending_orders,
+               'out_of_stock': out_of_stock,
                }
     return render(request, 'main/supervisor.html', context)
 
@@ -82,8 +87,8 @@ def supervisor(request):
 def products(request):
     products = Product.objects.all()
 
+    return render(request, 'main/products.html', {'products': products})
 
-    return render(request, 'main/products.html',{'products':products})
 
 # create order and update order form
 def createOrder(request):
@@ -97,4 +102,19 @@ def createOrder(request):
 
     context = {'form': form}
 
-    return render(request, 'main/order_form.html',context)
+    return render(request, 'main/order_form.html', context)
+
+
+def updateOrder(request, productid):
+    order = Order.objects.get(id=productid)
+    form = OrderForm(instance=order)
+
+    if request.method == 'POST':
+        form = OrderForm(request.POST, instance=order)
+        if form.is_valid():
+            form.save()
+            return redirect('/supervisor')
+
+    context = {'form': form}
+    return render(request, 'main/order_form.html', context)
+

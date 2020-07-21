@@ -146,7 +146,7 @@
                         <th>  {{order.customer}}</th>
                         <th>  {{order.status}}</th>
 
-                        <th> <button class="btn btn-primary" type="submit">Update</button></th>
+                        <th> <a href="{% url 'main:updateorder' order.id %}" class="btn btn-primary" type="submit">Update</a></th>
 
 
 
