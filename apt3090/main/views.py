@@ -257,6 +257,10 @@ def registerPage(request):
 
             group = Group.objects.get(name='customer')
             user.groups.add(group)
+            Customer.objects.create(
+                user=user,
+                name=user.username,
+            )
 
             messages.success(request, 'Account was created for ' + username)
 
