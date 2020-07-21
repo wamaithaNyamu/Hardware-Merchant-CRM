@@ -24,7 +24,7 @@
 			<h5>Products:</h5>
 			<hr>
 			<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'main:createproduct' %}">Add Products</a>
-			<a class="btn btn-outline-danger  btn-sm btn-block" href="">Delete Products</a>
+{#			<a class="btn btn-outline-danger  btn-sm btn-block" href="">Delete Products</a>#}
 
 		</div>
 	</div>
@@ -203,6 +203,7 @@
             <div class="card card-body">
                 <table class="table table-sm">
                     <tr>
+                        <th></th>
                         <th>Date Joined</th>
                         <th> Name</th>
                         <th> Email</th>
@@ -213,12 +214,13 @@
                     </tr>
                       {% for customer in customers %}
                     <tr>
+                        <th> <a href="{% url 'main:user' customer.name %}"  >View</a></th>
                         <th>  {{customer.date_created}}</th>
                         <th>  {{customer.name}}</th>
                         <th>  {{customer.email}}</th>
                         <th>  {{customer.phone}}</th>
 
-                        <th> <a href="{% url 'main:user' customer.name %}"  >View</a></th>
+                        <th> <a href="{% url 'main:user' customer.name %}"  >Place Order</a></th>
 
 
 
