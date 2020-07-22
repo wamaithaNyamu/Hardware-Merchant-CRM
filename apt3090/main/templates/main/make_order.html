@@ -4,12 +4,11 @@
 
 <form action="", method="post">
     {% csrf_token %}
-    {{ formset.management_form }}
-    {% for form in formset %}
-        {{ form }} <br>
-    {% endfor %}
+    {{ forms.management_form }}
+    {{ forms }}
 
-    <button name="submit" type="submit" class="btn btn-primary">Update</button>
+
+    <button name="submit" type="submit" class="btn btn-primary">Order</button>
 
 
 </form>

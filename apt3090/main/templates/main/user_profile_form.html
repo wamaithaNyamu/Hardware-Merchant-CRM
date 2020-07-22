@@ -4,12 +4,19 @@
 
 <form action="", method="post">
     {% csrf_token %}
-    {{ form }}
+    {% for field in form %}
+    {{ field }} <br>
+    {% endfor %}
       <button name="submit" type="submit" class="btn btn-primary">Update</button>
-
     <hr>
 
 
+
+
 </form>
+        <hr>
+    <h1>OR EDIT YOUR PAYMENT INFORMATION</h1>
+			<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'main:payment_settings' %}">Edit Payment Details</a>
+
 </div>
 {% endblock %}

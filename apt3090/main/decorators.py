@@ -33,6 +33,8 @@ def admin_only(view_func):
 
 		if group == 'customer':
 			return redirect('main:user')
+		if group == 'intern':
+			return redirect('main:intern')
 
 		if group == 'admin':
 			return view_func(request, *args, **kwargs)

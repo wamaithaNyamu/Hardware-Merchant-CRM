@@ -65,22 +65,22 @@ def customer(request, username):
 # intern view
 # can only see customer insensitive info
 # can RU orders - change order status as delivered, cancelled, returns
-@login_required(login_url='main:login')
-@allowed_users(allowed_roles=['Intern', 'admin'])
-def intern(request, username):
-    username = Intern.objects.get(name=username)
-    orders = Order.objects.all()
-    pending_orders = orders.filter(status='Pending').count()
-
-    context = {
-        'username': username,
-        'orders': orders,
-        'pending_orders': pending_orders,
-
-    }
-
-    return render(request, 'main/intern.html', context)
-
+# @login_required(login_url='main:login')
+# @allowed_users(allowed_roles=[, 'admin'])
+# def intern(request, username):
+#     username = Intern.objects.get(name=username)
+#     orders = Order.objects.all()
+#     pending_orders = orders.filter(status='Pending').count()
+#
+#     context = {
+#         'username': username,
+#         'orders': orders,
+#         'pending_orders': pending_orders,
+#
+#     }
+#
+#     return render(request, 'main/intern.html', context)
+#
 
 # supervisor view
 # supervisor can see everything
@@ -99,19 +99,19 @@ def supervisor(request):
     products = Product.objects.all()
     orders = Order.objects.all()
     customers = Customer.objects.all()
-    interns = Intern.objects.all()
+    # interns = Intern.objects.all()
     total_customers = customers.count()
     total_orders = orders.count()
-    total_interns = interns.count()
+    # total_interns = interns.count()
     out_of_stock = products.filter(stock_number=0).count()
     pending_orders = orders.filter(status='Pending').count()
     context = {'products': products,
                'orders': orders,
                'customers': customers,
-               'interns': interns,
+               # 'interns': interns,
                'total_customers': total_customers,
                'total_orders': total_orders,
-               'total_interns': total_interns,
+               # 'total_interns': total_interns,
                'pending_orders': pending_orders,
                'out_of_stock': out_of_stock,
                }
@@ -121,7 +121,7 @@ def supervisor(request):
 # products view
 # shows products and their prices and ability to place an order
 @login_required(login_url='main:login')
-@allowed_users(allowed_roles=['admin', 'intern'])
+@allowed_users(allowed_roles=['admin'])
 def products(request):
     products = Product.objects.all()
     return render(request, 'main/products.html', {'products': products})
@@ -141,29 +141,49 @@ def createOrder(request, username):
         formset = OrderFormSet(request.POST, instance=customer)
         if formset.is_valid():
             formset.save()
-            return redirect('/supervisor')
+            return redirect('main:supervisor')
 
     context = {'formset': formset}
 
     return render(request, 'main/order_form.html', context)
 
 
-# create intern and update order form
+# create order and update order form
 @login_required(login_url='main:login')
-@allowed_users(allowed_roles=['admin'])
-def createIntern(request):
-    form = InternForm()
+@allowed_users(allowed_roles=['customer'])
+def makeOrder(request):
+    curr_customer = request.user.customer
+    form = OrderForm()
+
     if request.method == 'POST':
-        # print('Printing POST:', request.POST)
-        form = InternForm(request.POST)
+        form = OrderForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('/supervisor')
+            the_order = form.save(commit=False)
+            the_order.customer = curr_customer
+            the_order.save()
+            return redirect('main:user')
 
-    context = {'form': form}
+    context = {'forms': form}
 
-    return render(request, 'main/intern_form.html', context)
+    return render(request, 'main/make_order.html', context)
 
+#
+# # create intern and update order form
+# @login_required(login_url='main:login')
+# @allowed_users(allowed_roles=['admin'])
+# def createIntern(request):
+#     form = InternForm()
+#     if request.method == 'POST':
+#         # print('Printing POST:', request.POST)
+#         form = InternForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('/supervisor')
+#
+#     context = {'form': form}
+#
+#     return render(request, 'main/intern_form.html', context)
+#
 
 # create product and update order form
 @login_required(login_url='main:login')
@@ -199,7 +219,7 @@ def createCustomer(request):
 
 
 @login_required(login_url='main:login')
-@allowed_users(allowed_roles=['admin', 'intern'])
+@allowed_users(allowed_roles=['admin'])
 def updateOrder(request, productid):
     order = Order.objects.get(id=productid)
     form = OrderForm(instance=order)
@@ -214,21 +234,21 @@ def updateOrder(request, productid):
     return render(request, 'main/order_form.html', context)
 
 
-@login_required(login_url='main:login')
-@allowed_users(allowed_roles=['admin'])
-def updateIntern(request, username):
-    intern = Intern.objects.get(name=username)
-    form = InternForm(instance=intern)
-
-    if request.method == 'POST':
-        form = InternForm(request.POST, instance=intern)
-        if form.is_valid():
-            form.save()
-            return redirect('/supervisor')
-
-    context = {'form': form}
-    return render(request, 'main/intern_form.html', context)
-
+# @login_required(login_url='main:login')
+# @allowed_users(allowed_roles=['admin'])
+# def updateIntern(request, username):
+#     intern = Intern.objects.get(name=username)
+#     form = InternForm(instance=intern)
+#
+#     if request.method == 'POST':
+#         form = InternForm(request.POST, instance=intern)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('/supervisor')
+#
+#     context = {'form': form}
+#     return render(request, 'main/intern_form.html', context)
+#
 
 @login_required(login_url='main:login')
 @allowed_users(allowed_roles=['admin'])
@@ -322,23 +342,33 @@ def userProfile(request):
     return render(request, 'main/user_profile_form.html', context)
 
 
+# @login_required(login_url='login')
+# @allowed_users(allowed_roles=['intern'])
+# def internPage(request):
+#     orders = request.user.customer.order_set.all()
+#
+#     total_orders = orders.count()
+#     delivered = orders.filter(status='Delivered').count()
+#     pending = orders.filter(status='Pending').count()
+#
+#     context = {'orders': orders, 'total_orders': total_orders,
+#                'delivered': delivered, 'pending': pending}
+#     return render(request, 'main/intern_page.html', context)
+#
+
 def creditCardView(request):
     cards = CreditCard.objects.all()
-
-
-    form = CreditCardForm()
     curr_customer = request.user.customer
+    form = CreditCardForm(request.POST, initial={'customer': curr_customer})
 
     if request.method == 'POST':
-        form = CreditCardForm(request.POST,instance=curr_customer)
+        form = CreditCardForm(request.POST, instance=curr_customer)
         if form.is_valid():
-
             names_on_card = form.cleaned_data.get('names_on_card')
             card_number = form.cleaned_data.get('card_number')
             cvv = form.cleaned_data.get('cvv')
             expiry_month = form.cleaned_data.get('expiry_month')
             expiry_year = form.cleaned_data.get('expiry_year')
-
 
             a = CreditCard.objects.create(
                 customer=curr_customer,
@@ -349,14 +379,12 @@ def creditCardView(request):
                 expiry_year=expiry_year
 
             )
-            print( a.card_number_enc)
-
-
+            print(a.card_number_enc)
 
             # form.save()
-            messages.success(request, 'Credit card details updated! ' )
+            messages.success(request, 'Credit card details updated! ')
 
             return redirect('main:user')
 
-    context = {'form': form, 'cards': cards }
+    context = {'form': form, 'cards': cards}
     return render(request, 'main/credit_card.html', context)
