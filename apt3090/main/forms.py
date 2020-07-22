@@ -11,11 +11,6 @@ class OrderForm(ModelForm):
         fields = '__all__'
 
 
-# class InternForm(ModelForm):
-#     class Meta:
-#         model = Intern
-#         fields = '__all__'
-#
 
 class ProductForm(ModelForm):
     class Meta:

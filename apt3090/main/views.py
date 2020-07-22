@@ -1,25 +1,6 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from .models import *
-from .forms import *
-from django.forms import inlineformset_factory
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from django.forms import inlineformset_factory
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import authenticate, login, logout
 
-from django.contrib import messages
-
-from django.contrib.auth.decorators import login_required
-
-# Create your views here.
-from .models import *
-from .forms import OrderForm, CreateUserForm
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from django.forms import inlineformset_factory
-from django.contrib.auth.forms import UserCreationForm
 
 from django.contrib.auth import authenticate, login, logout
 
@@ -29,7 +10,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 
 # Create your views here.
-from .models import *
 from .forms import *
 from .decorators import unauthenticated_user, allowed_users, admin_only
 
@@ -54,6 +34,7 @@ def customer(request, username):
     username = Customer.objects.get(name=username)
     orders = username.order_set.all()
     orders_pending = orders.filter(status='Pending').count()
+    cards = CreditCard.objects.all()
     context = {
         'username': username,
         'orders': orders,
@@ -61,26 +42,6 @@ def customer(request, username):
     }
     return render(request, 'main/orders.html', context)
 
-
-# intern view
-# can only see customer insensitive info
-# can RU orders - change order status as delivered, cancelled, returns
-# @login_required(login_url='main:login')
-# @allowed_users(allowed_roles=[, 'admin'])
-# def intern(request, username):
-#     username = Intern.objects.get(name=username)
-#     orders = Order.objects.all()
-#     pending_orders = orders.filter(status='Pending').count()
-#
-#     context = {
-#         'username': username,
-#         'orders': orders,
-#         'pending_orders': pending_orders,
-#
-#     }
-#
-#     return render(request, 'main/intern.html', context)
-#
 
 # supervisor view
 # supervisor can see everything
@@ -167,23 +128,7 @@ def makeOrder(request):
 
     return render(request, 'main/make_order.html', context)
 
-#
-# # create intern and update order form
-# @login_required(login_url='main:login')
-# @allowed_users(allowed_roles=['admin'])
-# def createIntern(request):
-#     form = InternForm()
-#     if request.method == 'POST':
-#         # print('Printing POST:', request.POST)
-#         form = InternForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('/supervisor')
-#
-#     context = {'form': form}
-#
-#     return render(request, 'main/intern_form.html', context)
-#
+
 
 # create product and update order form
 @login_required(login_url='main:login')
@@ -234,21 +179,7 @@ def updateOrder(request, productid):
     return render(request, 'main/order_form.html', context)
 
 
-# @login_required(login_url='main:login')
-# @allowed_users(allowed_roles=['admin'])
-# def updateIntern(request, username):
-#     intern = Intern.objects.get(name=username)
-#     form = InternForm(instance=intern)
-#
-#     if request.method == 'POST':
-#         form = InternForm(request.POST, instance=intern)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('/supervisor')
-#
-#     context = {'form': form}
-#     return render(request, 'main/intern_form.html', context)
-#
+
 
 @login_required(login_url='main:login')
 @allowed_users(allowed_roles=['admin'])
@@ -342,20 +273,10 @@ def userProfile(request):
     return render(request, 'main/user_profile_form.html', context)
 
 
-# @login_required(login_url='login')
-# @allowed_users(allowed_roles=['intern'])
-# def internPage(request):
-#     orders = request.user.customer.order_set.all()
-#
-#     total_orders = orders.count()
-#     delivered = orders.filter(status='Delivered').count()
-#     pending = orders.filter(status='Pending').count()
-#
-#     context = {'orders': orders, 'total_orders': total_orders,
-#                'delivered': delivered, 'pending': pending}
-#     return render(request, 'main/intern_page.html', context)
-#
 
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['customer'])
 def creditCardView(request):
     cards = CreditCard.objects.all()
     curr_customer = request.user.customer
@@ -381,7 +302,6 @@ def creditCardView(request):
             )
             print(a.card_number_enc)
 
-            # form.save()
             messages.success(request, 'Credit card details updated! ')
 
             return redirect('main:user')

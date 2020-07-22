@@ -8,7 +8,6 @@
       <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Products</a>
       <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Orders</a>
       <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Customers</a>
-{#      <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Interns</a>#}
     </div>
   </div>
 
@@ -90,15 +89,7 @@
           <br>
 
 <div class="row">
-{#	<div class="col-md">#}
-{#		<div class="card card-body">#}
-{#			<h5>Orders:</h5>#}
-{#			<hr>#}
-{#			<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'main:createorder' %}">Add Order</a>#}
-{#			<a class="btn btn-outline-danger  btn-sm btn-block" href="">Delete Products</a>#}
-{##}
-{#		</div>#}
-{#	</div>#}
+
 
 
 	<div class="col-md">
@@ -233,73 +224,7 @@
       </div>
       <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
                  <br>
-{##}
-{#<div class="row">#}
-{#	<div class="col-md">#}
-{#		<div class="card card-body">#}
-{#			<h5>Interns:</h5>#}
-{#			<hr>#}
-{#			<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'main:createintern' %}">Add Intern</a>#}
-{#			<a class="btn btn-outline-danger  btn-sm btn-block" href="">Delete Products</a>#}
-{##}
-{#		</div>#}
-{#	</div>#}
-{##}
-{##}
-{#	<div class="col-md">#}
-{#		<div class="card card-body">#}
-{#			<h5>Total Interns</h5>#}
-{#			<hr>#}
-{#			<h1 style="text-align: center;padding: 10px">{{ total_interns }}#}
-{#            </h1>#}
-{#		</div>#}
-{#	</div>#}
-{#</div>#}
 
-
-{#<br>#}
-{#<div class="row">#}
-{#	<div class="col">#}
-{#		<div class="card card-body">#}
-{#			<form method="get">#}
-{##}
-{#		    <button class="btn btn-primary" type="submit">Search</button>#}
-{#		  </form>#}
-{#		</div>#}
-{#	</div>#}
-{##}
-{#</div>#}
-{#<br>#}
-{##}
-{##}
-{#      <div class="row">#}
-{#        <div class="col-md">#}
-{#            <div class="card card-body">#}
-{#                <table class="table table-sm">#}
-{#                    <tr>#}
-{#                        <th>Date Joined</th>#}
-{#                        <th> Name</th>#}
-{#                        <th> Email</th>#}
-{#                        <th>Phone</th>#}
-{##}
-{#                    </tr>#}
-{#                      {% for intern in interns %}#}
-{#                    <tr>#}
-{#                        <th>  {{intern.date_created}}</th>#}
-{#                        <th>  {{intern.name}}</th>#}
-{#                        <th>  {{intern.email}}</th>#}
-{#                        <th>  {{intern.phone}}</th>#}
-{##}
-{#                        <th> <a href="{% url 'main:intern' intern.name %}" >View</a></th>#}
-{##}
-{##}
-{##}
-{#                    </tr>#}
-{#                    {% endfor %}#}
-{#                </table>#}
-{#            </div>#}
-{#        </div>#}
-{#      </div>#}
       </div>
     </div>
   </div>
