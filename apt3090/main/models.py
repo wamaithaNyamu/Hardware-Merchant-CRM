@@ -26,6 +26,20 @@ class CreditCard(models.Model):
     expiry_month = models.CharField(max_length=3, null=True)
     expiry_year = models.CharField(max_length=4, null=True)
 
+    def _get_ssn(self):
+        cursor = connection.cursor()
+        cursor.execute("SELECT AES_DECRYPT(UNHEX(card_number), %s) as ssn FROM main_creditcard WHERE id=%s",
+                       [settings.SECRET_KEY, self.id])
+        return cursor.fetchone()[0]
+
+    def _set_ssn(self, ssn_value):
+        cursor = connection.cursor()
+        cursor.execute("SELECT HEX(AES_ENCRYPT(%s, %s)) as ssn", [ssn_value, settings.SECRET_KEY])
+        self.card_number = cursor.fetchone()[0]
+
+    ssn = property(_get_ssn, _set_ssn)
+
+
     def __str__(self):
         return self.customer
 

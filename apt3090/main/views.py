@@ -300,12 +300,13 @@ def userPage(request):
     total_orders = orders.count()
     delivered = orders.filter(status='Delivered').count()
     pending = orders.filter(status='Pending').count()
-
-    print('ORDERS:', orders)
+    #
+    # print('ORDERS:', orders)
 
     context = {'orders': orders, 'total_orders': total_orders,
                'delivered': delivered, 'pending': pending}
     return render(request, 'main/user.html', context)
+
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['customer'])
@@ -315,15 +316,48 @@ def userProfile(request):
     if request.method == 'POST':
         form = CustomerProfileForm(request.POST, instance=curr_customer)
         if form.is_valid():
-           form.save()
-
-    customer = Customer.objects.get(name=curr_customer)
-    creditForm = CreditCardForm(initial={'customer':customer},instance=curr_customer)
-    if request.method == 'POST':
-        creditForm = CreditCardForm(request.POST, instance=curr_customer)
-        if creditForm.is_valid():
-           creditForm.save()
-    context = {'form': form,
-               'creditForm': creditForm}
-
+            form.save()
+            return redirect('main:user')
+    context = {'form': form}
     return render(request, 'main/user_profile_form.html', context)
+
+
+def creditCardView(request):
+    # >> > from foo.bar.models import Employee
+    # >> > p = Employee.objects.create(ssn='123-45-6789')
+    # >> > p.ssn
+    # '123-45-6789'
+
+    form = CreditCardForm()
+
+    curr_customer = request.user.customer
+
+    if request.method == 'POST':
+        form = CreditCardForm(request.POST,instance=curr_customer)
+        if form.is_valid():
+            # username = form.cleaned_data.get('username')
+            #
+            # group = Group.objects.get(name='customer')
+            # user.groups.add(group)
+            # Customer.objects.create(
+            #     user=user,
+            #     name=user.username,
+            # )
+            card_number = form.cleaned_data.get('card_number')
+
+            print('card_number unencrypted: ', card_number)
+
+            a = CreditCard.objects.create(
+                customer=curr_customer,
+                ssn=card_number,
+
+            )
+
+            print( a.ssn)
+            # form.save()
+            messages.success(request, 'Credit card details updated! ' )
+
+            return redirect('main:user')
+
+    context = {'form': form}
+    return render(request, 'main/credit_card.html', context)
