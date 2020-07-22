@@ -1,67 +1,188 @@
-<!doctype html>
+{% load static %}
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Hadware Merchant</title>
+  <meta content="" name="descriptison">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
-  </head>
-  <body>
-  <div class="container">
+  <!-- Template Main CSS File -->
+  <link href="{% static '/css/style.css' %}" rel="stylesheet">
 
-   <ul class="nav justify-content-end">
-  <li class="nav-item">
-    <a class="nav-link active" href="{% url 'main:login' %}">Login</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="{% url 'main:register' %}">Register</a>
-  </li>
+</head>
 
-</ul>
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top ">
+    <div class="container d-flex align-items-center">
+
+      <h1 class="logo mr-auto"><a href="index.html">Hardware Merchant</a></h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <a href="index.html" class="logo mr-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+      <nav class="nav-menu d-none d-lg-block">
+        <ul>
+          <li class="active"><a href="{{ request.user }}">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <!-- <li><a href="#services">Services</a></li>
+          <li><a href="#portfolio">Portfolio</a></li> -->
+          <li><a href="#team">Team</a></li>
+
+          <li><a href="{% url 'main:login' %}">Login</a></li>
+          <!-- <li><a href="#contact"></a></li> -->
+
+
+        </ul>
+      </nav><!-- .nav-menu -->
+
+      <a href="{% url 'main:register' %}" class="get-started-btn scrollto">Register</a>
+
+    </div>
+  </header><!-- End Header -->
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex align-items-center">
+
+    <div class="container">
       <div class="row">
-  <div class="col-sm-6">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Stect</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <div class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
+          <h1>Merchant Hardware CRM</h1>
+          <h2>Manage your people in one place</h2>
+          <div class="d-lg-flex">
+            <a href="#about" class="btn-get-started scrollto">Get Started</a>
+            <!-- <a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="venobox btn-watch-video" data-vbtype="video" data-autoplay="true"> Watch Video <i class="icofont-play-alt-2"></i></a> -->
+          </div>
+        </div>
+        <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
+          <img src="{% static 'images/hero-img.png' %}" class="img-fluid animated" alt="">
+        </div>
       </div>
     </div>
-  </div>
-  <div class="col-sm-6">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
+
+  </section><!-- End Hero -->
+
+  <main id="main">
+
+    <!-- ======= About Us Section ======= -->
+    <section id="about" class="about">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>About This Assignment</h2>
+        </div>
+
+        <div class="row content">
+          <div class="col-lg-6">
+              <h1>Phase 1</h1>
+            <p>
+             a)	Credit Card Vault Project: A merchant need to store customer’s credit card details. You only need to collect credit card information from a customer once, then store the card details in the vault. The next time you want to invoice a customer, you can use the stored card information.
+            b)	Identify sensitive, confidential  and public information
+            c)	Identify users access levels ( Who should Select,Insert,Delete,Update)
+            d)	Provide a schema showing relationship of tables in 3NF.
+
+            </p>
+
+          </div>
+          <div class="col-lg-6 pt-4 pt-lg-0">
+           <h1>Phase 2</h1>
+
+            <p>
+             a)	Create you database as per your 3NF
+            b)	Write scripts to insert and retrieve (sensitive, confidential  and public information) using AES_ENCRYPT and AES_DECRYPT FUNCTIONS.
+            c)	The application can be entered using a username and password for different type of users. The password should be hashed using SHA.
+            d)	Create  three views
+            e)	The application should allow different types of authenticated users to access the data base based on their level of privileges.
+            f)	Prepare a final project report.
+
+            </p>
+            <a href="https://github.com/wamaithaNyamu/Hardware-Merchant-CRM" class="btn-learn-more">Source Code</a>
+          </div>
+        </div>
+
       </div>
-    </div>
-  </div>
-</div>
-      <div class="row">
-  <div class="col-sm-6">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
+    </section><!-- End About Us Section -->
+
+
+
+
+
+
+
+
+    <!-- ======= Team Section ======= -->
+    <section id="team" class="team section-bg">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Group Members</h2>
+          <p>Group 8 members</p>
+        </div>
+
+        <div class="row">
+
+          <div class="col-lg-6">
+            <div class="member d-flex align-items-start" data-aos="zoom-in" data-aos-delay="100">
+              <div class="member-info">
+                <h4>Steve Kuria</h4>
+                <span>657721</span>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6 mt-4 mt-lg-0">
+            <div class="member d-flex align-items-start" data-aos="zoom-in" data-aos-delay="200">
+              <div class="member-info">
+                <h4>Patel Nirali </h4>
+                <span>657993</span>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6 mt-4">
+            <div class="member d-flex align-items-start" data-aos="zoom-in" data-aos-delay="300">
+              <div class="member-info">
+                <h4>Ishimwe Gloria</h4>
+                <span>659498</span>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6 mt-4">
+            <div class="member d-flex align-items-start" data-aos="zoom-in" data-aos-delay="400">
+              <div class="member-info">
+                <h4>Wamaitha Nyamu</h4>
+                <span>657179</span>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
       </div>
-    </div>
-  </div>
-  <div class="col-sm-6">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-      </div>
-    </div>
-  </div>
-</div>
-  </div>
+    </section><!-- End Team Section -->
+
+
+  </main><!-- End #main -->
+
+
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
