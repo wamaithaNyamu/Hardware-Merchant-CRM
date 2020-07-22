@@ -21,5 +21,6 @@ urlpatterns = [
     path("user_profile/", views.userProfile, name='userprofile'),
     path("payment_settings/", views.creditCardView, name='payment_settings'),
     path("make_order/", views.makeOrder, name='makeorder'),
+    path("invoice/<slug:username>/", views.sendEmail, name='invoice'),
 
 ]

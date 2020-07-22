@@ -1,41 +1,22 @@
-{% extends 'main/base.html' %}
+{% extends 'main/bootstrap.html' %}
+
 {% block content%}
-	<br>
+<div class="container" style="margin: 1%; padding: 3%">
+
+<h1>Hello, {{ username }}</h1>
+   {% for card in cards %}
+
+    <p>We charged your credit card {{ card.card_number_enc }}</p>
+
+
+    {% endfor %}
+    <br>
 <div style="margin: 1%; padding: 3%">
 <div class="row" >
-	<div class="col-md">
-		<div class="card card-body">
-			<h5>Order:</h5>
-			<hr>
-			<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'main:createorder' username %}">Make new order</a>
-			<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'main:invoice' username %}">Send Invoice</a>
-
-		</div>
-	</div>
-
-
-	<div class="col-md">
-		<div class="card card-body">
-			<h5>Orders pending</h5>
-			<hr>
-			<h1 style="text-align: center;padding: 10px">{{ orders_pending }}</h1>
-		</div>
-	</div>
-</div>
 
 
 <br>
-<div class="row">
-	<div class="col">
-		<div class="card card-body">
-			<form method="get">
 
-		    <button class="btn btn-primary" type="submit">Search</button>
-		  </form>
-		</div>
-	</div>
-
-</div>
 <br>
 
 
@@ -69,5 +50,7 @@
             </div>
         </div>
     </div>
+</div>
+</div>
 </div>
 {% endblock %}

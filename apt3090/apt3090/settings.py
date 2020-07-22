@@ -56,7 +56,7 @@ ROOT_URLCONF = 'apt3090.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates/main')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -68,6 +68,15 @@ TEMPLATES = [
         },
     },
 ]
+
+# Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'achieleyemo@gmail.com'
+EMAIL_HOST_PASSWORD = '******'
+
 
 WSGI_APPLICATION = 'apt3090.wsgi.application'
 

@@ -1,18 +1,22 @@
-
 from django.shortcuts import render, redirect
 from django.forms import inlineformset_factory
-
 from django.contrib.auth import authenticate, login, logout
-
 from django.contrib import messages
-
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
+from django.http import HttpResponse
 
 # Create your views here.
 from .forms import *
 from .decorators import unauthenticated_user, allowed_users, admin_only
 
+from django.template.loader import render_to_string
+from django.core.mail import EmailMessage
+from django.core.mail import send_mail
+from django.conf import settings
+from django.template import Context
+from django.template.loader import render_to_string, get_template
+from django.core.mail import EmailMessage
 
 # landing page view
 # landing page for the merchants business - hardware business
@@ -34,15 +38,47 @@ def customer(request, username):
     username = Customer.objects.get(name=username)
     orders = username.order_set.all()
     orders_pending = orders.filter(status='Pending').count()
-    cards = CreditCard.objects.all()
     context = {
         'username': username,
         'orders': orders,
-        'orders_pending': orders_pending
+        'orders_pending': orders_pending,
     }
+
     return render(request, 'main/orders.html', context)
 
 
+
+@login_required(login_url='main:login')
+@allowed_users(allowed_roles=['admin'])
+def sendEmail(request, username):
+    username = Customer.objects.get(name=username)
+    orders = username.order_set.all()
+    orders_pending = orders.filter(status='Pending').count()
+    cards = CreditCard.objects.all()
+    # import html message.html file
+    html_template = r"C:\Users\Wamaitha\Documents\SCHOOL\APT3090\CARDVAULT\apt3090\main\templates\main\invoice.html"
+
+    context = {
+        'username': username,
+        'orders': orders,
+        'orders_pending': orders_pending,
+        'cards': cards
+    }
+    message = get_template('main/invoice.html').render(context)
+    # html_message = get_template('main/invoice.html').render(context)
+    msg = EmailMessage(
+        'YOUR INVOICE',
+        message,
+        'achieleyemo@gmail.com',
+        ['devwamaitha@gmail.com'],
+    )
+    msg.content_subtype = "html"  # Main content is now text/html
+    msg.send()
+    # html_message.content_subtype = 'html'  # this is required because there is no plain text email message
+    # message = EmailMessage('YOUR INVOICE', html_message, 'achieleyemo@gmail.com', ['devwamaitha@gmail.com'])
+    # message.send()
+    print("Mail successfully sent")
+    return redirect('main:supervisor')
 # supervisor view
 # supervisor can see everything
 # can CRUD interns
@@ -57,6 +93,7 @@ def customer(request, username):
 @login_required(login_url='main:login')
 @admin_only
 def supervisor(request):
+
     products = Product.objects.all()
     orders = Order.objects.all()
     customers = Customer.objects.all()
