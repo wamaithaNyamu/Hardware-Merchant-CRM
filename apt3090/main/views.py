@@ -323,41 +323,40 @@ def userProfile(request):
 
 
 def creditCardView(request):
-    # >> > from foo.bar.models import Employee
-    # >> > p = Employee.objects.create(ssn='123-45-6789')
-    # >> > p.ssn
-    # '123-45-6789'
+    cards = CreditCard.objects.all()
+
 
     form = CreditCardForm()
-
     curr_customer = request.user.customer
 
     if request.method == 'POST':
         form = CreditCardForm(request.POST,instance=curr_customer)
         if form.is_valid():
-            # username = form.cleaned_data.get('username')
-            #
-            # group = Group.objects.get(name='customer')
-            # user.groups.add(group)
-            # Customer.objects.create(
-            #     user=user,
-            #     name=user.username,
-            # )
-            card_number = form.cleaned_data.get('card_number')
 
-            print('card_number unencrypted: ', card_number)
+            names_on_card = form.cleaned_data.get('names_on_card')
+            card_number = form.cleaned_data.get('card_number')
+            cvv = form.cleaned_data.get('cvv')
+            expiry_month = form.cleaned_data.get('expiry_month')
+            expiry_year = form.cleaned_data.get('expiry_year')
+
 
             a = CreditCard.objects.create(
                 customer=curr_customer,
-                ssn=card_number,
+                names_on_card=names_on_card,
+                card_number_enc=card_number,
+                cvv_enc=cvv,
+                expiry_month=expiry_month,
+                expiry_year=expiry_year
 
             )
+            print( a.card_number_enc)
 
-            print( a.ssn)
+
+
             # form.save()
             messages.success(request, 'Credit card details updated! ' )
 
             return redirect('main:user')
 
-    context = {'form': form}
+    context = {'form': form, 'cards': cards }
     return render(request, 'main/credit_card.html', context)

@@ -21,27 +21,39 @@ class Customer(models.Model):
 class CreditCard(models.Model):
     # AES ENCRYPTION PART
     customer = models.ForeignKey(Customer, null=True, on_delete=models.SET_NULL)
+    names_on_card = models.CharField(max_length=200, null=True)
     card_number = models.CharField(max_length=200, null=True)
     cvv = models.CharField(max_length=18, null=True)
     expiry_month = models.CharField(max_length=3, null=True)
     expiry_year = models.CharField(max_length=4, null=True)
 
-    def _get_ssn(self):
+    def _get_card_number(self):
         cursor = connection.cursor()
-        cursor.execute("SELECT AES_DECRYPT(UNHEX(card_number), %s) as ssn FROM main_creditcard WHERE id=%s",
+        cursor.execute("SELECT AES_DECRYPT(UNHEX(card_number), %s) as card_number_enc FROM main_creditcard WHERE id=%s",
                        [settings.SECRET_KEY, self.id])
         return cursor.fetchone()[0]
 
-    def _set_ssn(self, ssn_value):
+    def _get_cvv(self):
         cursor = connection.cursor()
-        cursor.execute("SELECT HEX(AES_ENCRYPT(%s, %s)) as ssn", [ssn_value, settings.SECRET_KEY])
+        cursor.execute("SELECT AES_DECRYPT(UNHEX(cvv), %s) as cvv_enc FROM main_creditcard WHERE id=%s",
+                       [settings.SECRET_KEY, self.id])
+        return cursor.fetchone()[0]
+
+    def _set_card_number(self, card_number_value):
+        cursor = connection.cursor()
+        cursor.execute("SELECT HEX(AES_ENCRYPT(%s, %s)) as card_number_enc", [card_number_value, settings.SECRET_KEY])
         self.card_number = cursor.fetchone()[0]
 
-    ssn = property(_get_ssn, _set_ssn)
+    def _set_cvv(self, cvv_value):
+        cursor = connection.cursor()
+        cursor.execute("SELECT HEX(AES_ENCRYPT(%s, %s)) as cvv_enc", [cvv_value, settings.SECRET_KEY])
+        self.cvv = cursor.fetchone()[0]
 
+    card_number_enc = property(_get_card_number, _set_card_number)
+    cvv_enc = property(_get_cvv, _set_cvv)
 
     def __str__(self):
-        return self.customer
+        return self.names_on_card
 
 
 class Product(models.Model):

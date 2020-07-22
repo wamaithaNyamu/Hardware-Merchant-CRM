@@ -72,12 +72,17 @@
 
 <aside class="col-sm-6" style="margin: 1%; padding: 3%">
 
-<article class="card">
+    {% for card in cards %}
+     card number:   {{ card.card_number_enc }}
+
+
+    {% endfor %}
+    <article class="card">
 <div class="card-body p-5">
 
 <form  method="POST" >
     {% csrf_token %}
-	{{form.errors}}
+
 
 <div class="form-group">
 <label for="username">Full name (on the card)</label>
@@ -88,7 +93,15 @@
 							{{form.customer}}
 </div> <!-- input-group.// -->
 </div> <!-- form-group.// -->
-
+<div class="form-group">
+<label for="username">Full name (on the card)</label>
+<div class="input-group">
+	<div class="input-group-prepend">
+		<span class="input-group-text"><i class="fa fa-user"></i></span>
+	</div>
+							{{form.names_on_card}}
+</div> <!-- input-group.// -->
+</div> <!-- form-group.// -->
 <div class="form-group">
 <label for="cardNumber">Card number</label>
 <div class="input-group">
