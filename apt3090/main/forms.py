@@ -38,5 +38,10 @@ class CreateUserForm(UserCreationForm):
 class CustomerProfileForm(ModelForm):
     class Meta:
         model = Customer
-        fields = ['credit_card_number_encrypted','cvv_encrypted','expiry_month','expiry_year']
+        fields ='__all__'
 
+
+class CreditCardForm(ModelForm):
+    class Meta:
+        model = CreditCard
+        fields = '__all__'

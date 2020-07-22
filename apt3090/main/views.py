@@ -30,7 +30,7 @@ from django.contrib.auth.models import Group
 
 # Create your views here.
 from .models import *
-from .forms import OrderForm, CreateUserForm
+from .forms import *
 from .decorators import unauthenticated_user, allowed_users, admin_only
 
 
@@ -315,14 +315,15 @@ def userProfile(request):
     if request.method == 'POST':
         form = CustomerProfileForm(request.POST, instance=curr_customer)
         if form.is_valid():
-            card_number = form.cleaned_data['credit_card_number_encrypted']
-            credit_card = curr_customer.credit_card
-            p = curr_customer.objects.create(credit_card =card_number)
-            p.ssn
-            print('card number', card_number)
+           form.save()
 
-            form.save()
-
-    context = {'form': form}
+    customer = Customer.objects.get(name=curr_customer)
+    creditForm = CreditCardForm(initial={'customer':customer},instance=curr_customer)
+    if request.method == 'POST':
+        creditForm = CreditCardForm(request.POST, instance=curr_customer)
+        if creditForm.is_valid():
+           creditForm.save()
+    context = {'form': form,
+               'creditForm': creditForm}
 
     return render(request, 'main/user_profile_form.html', context)

@@ -1,6 +1,4 @@
-
-{#{% extends 'main/base.html' %}#}
-{% load static %}
+<!doctype html>
 <html lang="en">
   <head>
     <!-- Required meta tags -->
@@ -10,40 +8,60 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
-    <title>Merchant Hadware</title>
+    <title>Hello, world!</title>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Hardware Merchant</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
+  <div class="container">
 
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'main:login' %}">Login</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'main:register' %}">Register</a>
-      </li>
+   <ul class="nav justify-content-end">
+  <li class="nav-item">
+    <a class="nav-link active" href="{% url 'main:login' %}">Login</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'main:register' %}">Register</a>
+  </li>
 
-    </ul>
-  </div>
-</nav>
-<!-- end of navbar  -->
-
-<h1>THIS IS OUR SUPER AWSOME LANDING PAGE</h1>
-<div class="jumbotron jumbotron-fluid">
-    <div class="container">
-      <h1 class="display-4">Fluid jumbotron</h1>
-      <p class="lead">TO BE EDITED AFTER WE GET EVERYTHING WORKING</p>
+</ul>
+      <div class="row">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Stect</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+      </div>
     </div>
   </div>
-
-
-    <!-- our footer will go here -->
-    <h6>@copyright groupwork2020</h6>
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Special title treatment</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="row">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Special title treatment</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Special title treatment</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
