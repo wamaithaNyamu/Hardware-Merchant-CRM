@@ -2,6 +2,7 @@
 
 ![Landing page](./landing.PNG)
 
+# PHASE 2 OF THE SEMESTER PROJECT
 ![about page](./about.PNG)
 # Description of the System: 
 
